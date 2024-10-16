@@ -32,7 +32,6 @@ function ourstoryz_core_enqueue_frontend_scripts() {
 add_action('wp_enqueue_scripts', 'ourstoryz_core_enqueue_frontend_scripts');
 
 
-
 // Register shortcode
 function ourstoryz_core_shortcode() {
     return '<div id="ourstoryz-core-app"></div>';
