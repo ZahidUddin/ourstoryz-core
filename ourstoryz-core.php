@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) exit;
 
 // Enqueue admin scripts
 function ourstoryz_core_enqueue_admin_scripts($hook) {
-    if ($hook !== 'toplevel_page_ourstoryz-core-submissions') return;
+    if ($hook !== 'toplevel_page_ourstoryz-core') return;
     wp_enqueue_script('ourstoryz-core-admin-script', plugins_url('/build/admin.js', __FILE__), ['wp-element'], '1.0', true);
     wp_localize_script('ourstoryz-core-admin-script', 'ourstoryzCoreSettings', [
         'restURL' => esc_url_raw(rest_url('ourstoryz-core/v1/')),
@@ -40,7 +40,7 @@ add_shortcode('ourstoryz_core', 'ourstoryz_core_shortcode');
 
 // Admin menu for submissions
 function ourstoryz_core_create_menu() {
-    add_menu_page('OurStoryz Submissions', 'OurStoryz Submissions', 'manage_options', 'ourstoryz-core-submissions', 'ourstoryz_core_admin_page', 'dashicons-list-view');
+    add_menu_page('OurStoryz', 'OurStoryz', 'manage_options', 'ourstoryz-core', 'ourstoryz_core_admin_page', 'dashicons-list-view');
 }
 add_action('admin_menu', 'ourstoryz_core_create_menu');
 

@@ -17,3 +17,9 @@ npm install react react-dom @wordpress/api-fetch@latest
 
 # Install development dependencies for Babel and Webpack
 npm install --save-dev @babel/core @babel/preset-env @babel/preset-react babel-loader webpack webpack-cli
+
+# Install development dependencies for tailwindcss and postcss
+npm install -D tailwindcss postcss autoprefixer
+
+# Install development dependencies for tailwindcss and postcss
+npx tailwindcss -i ./src/frontend/components/Tailwind.css -o ./build/tailwind.css --watch

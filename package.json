@@ -7,7 +7,8 @@
         "build": "webpack --config webpack.config.js --mode production && npm run build:css",
         "build:css": "postcss src/frontend/components/Tailwind.css -o build/tailwind.css",
         "watch": "webpack --config webpack.config.js --mode development --watch & npm run watch:css",
-        "watch:css": "postcss src/frontend/components/Tailwind.css -o build/tailwind.css --watch"
+        "watch:css": "npx tailwindcss -i ./src/frontend/components/Tailwind.css -o ./build/tailwind.css --watch",
+        "tailwind:watch": "npx tailwindcss -i ./src/frontend/components/Tailwind.css -o ./build/tailwind.css --watch"
     },
     "dependencies": {
         "@wordpress/api-fetch": "^7.9.0",

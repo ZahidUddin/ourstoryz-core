@@ -23,7 +23,7 @@ function MultiStepForm() {
 
     return (
         <div>
-            <div className='text-3xl'>Let's Get Started</div>
+            <div className='text-3xl bg-red-900'>Let's Get Started</div>
             {currentStep === 0 && (
                 <>
                     <input type="radio" name="event" onClick={() => handleNextStep('set1', { role: 'self' })} /> I am creating the event myself<br/>
