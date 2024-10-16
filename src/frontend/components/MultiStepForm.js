@@ -1,55 +1,38 @@
-import React, { useState, useEffect } from 'react';
-import apiFetch from '@wordpress/api-fetch';
+import React, { useState } from 'react';
+import OptionModal from './OptionModal';
 
 function MultiStepForm() {
-    const [modalSets, setModalSets] = useState({ set1: [], set2: [] });
-    const [selectedSet, setSelectedSet] = useState(null);
-    const [currentModalIndex, setCurrentModalIndex] = useState(0);
+    const [currentStep, setCurrentStep] = useState(0);
+    const [formData, setFormData] = useState({});
+    const [showModal, setShowModal] = useState(null);
 
-    // Fetch modal sets from the backend
-    useEffect(() => {
-        apiFetch({ path: `${ourstoryzCoreSettings.restURL}modal-sets` })
-            .then(data => setModalSets(data))
-            .catch(error => console.error('Error fetching modal sets:', error));
-    }, []);
-
-    // Function to handle selection of a modal set
-    const handleSelection = (event) => {
-        const selected = event.target.getAttribute('triggerSet');
-        setSelectedSet(selected);
-        setCurrentModalIndex(0); // Reset to the first modal in the selected set
+    const handleNextStep = (selectedOption, inputData) => {
+        setFormData(prevData => ({ ...prevData, ...inputData }));
+        setCurrentStep(currentStep + 1);
+        setShowModal(selectedOption); 
     };
 
-    // Function to handle "Next" button click
-    const handleNext = () => {
-        if (selectedSet && currentModalIndex < modalSets[selectedSet].length - 1) {
-            setCurrentModalIndex(currentModalIndex + 1);
-        } else {
-            alert('End of the sequence.');
-        }
+    const handleSubmit = () => {
+        fetch(`${ourstoryzCoreSettings.restURL}submissions`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-WP-Nonce': ourstoryzCoreSettings.nonce },
+            body: JSON.stringify(formData)
+        }).then(response => response.json())
+          .then(() => alert("Submission saved!"));
     };
-
-    // Determine the current modal ID
-    const currentModal = selectedSet ? modalSets[selectedSet][currentModalIndex] : null;
 
     return (
         <div>
-            <h2>Select an Option</h2>
-            <input type="radio" name="eventName" onChange={handleSelection} triggerSet="set1" /> Set 1
-            <input type="radio" name="eventName" onChange={handleSelection} triggerSet="set2" /> Set 2
-
-            <button onClick={handleNext} disabled={!selectedSet}>
-                Next
-            </button>
-
-            {currentModal && (
-                <div className="modal">
-                    <div className="modal-content">
-                        <span className="close" onClick={() => setCurrentModalIndex(null)}>&times;</span>
-                        <h3>Modal ID: {currentModal}</h3>
-                        <p>This is the content for modal {currentModal}</p>
-                    </div>
-                </div>
+            <div className='text-3xl'>Let's Get Started</div>
+            {currentStep === 0 && (
+                <>
+                    <input type="radio" name="event" onClick={() => handleNextStep('set1', { role: 'self' })} /> I am creating the event myself<br/>
+                    <input type="radio" name="event" onClick={() => handleNextStep('set2', { role: 'professional' })} /> I am a Professional Event planner or organizer<br/>
+                    <button onClick={() => setShowModal(true)}>Next</button>
+                </>
+            )}
+            {showModal && (
+                <OptionModal setCurrentStep={setCurrentStep} currentStep={currentStep} formData={formData} handleNextStep={handleNextStep} handleSubmit={handleSubmit} />
             )}
         </div>
     );

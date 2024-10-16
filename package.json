@@ -1,11 +1,13 @@
 {
     "name": "ourstoryz-core",
     "version": "1.0.0",
-    "description": "OurStoryz Core plugin with consolidated build for admin and frontend under a single src directory",
+    "description": "A WordPress plugin with a multi-step form and modal-based navigation.",
     "main": "ourstoryz-core.php",
     "scripts": {
-        "build": "webpack --config webpack.config.js --mode production",
-        "watch": "webpack --config webpack.config.js --mode development --watch"
+        "build": "webpack --config webpack.config.js --mode production && npm run build:css",
+        "build:css": "postcss src/frontend/components/Tailwind.css -o build/tailwind.css",
+        "watch": "webpack --config webpack.config.js --mode development --watch & npm run watch:css",
+        "watch:css": "postcss src/frontend/components/Tailwind.css -o build/tailwind.css --watch"
     },
     "dependencies": {
         "@wordpress/api-fetch": "^7.9.0",
@@ -16,7 +18,11 @@
         "@babel/core": "^7.25.8",
         "@babel/preset-env": "^7.25.8",
         "@babel/preset-react": "^7.25.7",
+        "autoprefixer": "^10.4.20",
         "babel-loader": "^8.4.1",
+        "postcss": "^8.4.47",
+        "postcss-loader": "^6.1.1",
+        "tailwindcss": "^2.2.19",
         "webpack": "^5.95.0",
         "webpack-cli": "^4.10.0"
     }

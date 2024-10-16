@@ -3,11 +3,11 @@ const path = require('path');
 module.exports = {
   entry: {
     admin: './src/admin/index.js',
-    frontend: './src/frontend/index.js',
+    frontend: './src/frontend/index.js'
   },
   output: {
     path: path.resolve(__dirname, 'build'),
-    filename: '[name].js', // Compiled files as admin.js and frontend.js
+    filename: '[name].js'
   },
   module: {
     rules: [
@@ -17,13 +17,18 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/preset-env', '@babel/preset-react'],
-          },
-        },
+            presets: ['@babel/preset-env', '@babel/preset-react']
+          }
+        }
       },
-    ],
+      {
+        test: /\.css$/,
+        include: path.resolve(__dirname, 'src/frontend/components'),
+        use: ['style-loader', 'css-loader', 'postcss-loader']
+      }
+    ]
   },
   resolve: {
-    extensions: ['.js', '.jsx'],
-  },
+    extensions: ['.js', '.jsx']
+  }
 };
